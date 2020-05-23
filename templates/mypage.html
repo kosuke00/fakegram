@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title%} mypage {% endblock title %}
+
+{% block contents %}
+<div class="badge badge-primary text-wrap" style="background-color: #FFD700;">
+<h1 class="text-body">{{ request.user }}</h1>
+</div>
+<div class="row justify-content-center">
+<h2>Your posts</h2>
+</div>
+{% for img in object_list reversed %}
+{% if img.author == request.user %}
+ <div class="d-flex flex-column ">
+  <div class="row justify-content-center">
+     <div class="card card-custom mx-2 mb-3 border border-warning"  style="width: 18rem;">
+        <img src="{{ img.Photo.url  }}" class="card-img-top " alt="">
+        <div class="card-body">
+         <p>{{  img.comment }}</p>
+         <br>
+         <p class="border-bottom border-warning">{{  img.author  }}</p>
+         <p class="border-bottom border-warning">{{  img.date  }}</p>
+         <div class="text-center text-muted">
+          <a class="btn" style="background-color: #FFD700;"href="{% url 'edit' img.pk %}">Edit </a> |
+          <a class="btn" style="background-color: #FFD700;"href="{% url 'delete' img.pk %}">Delete</a> |
+          <a class="btn" style="background-color: #FFD700;"href="{% url 'reply' img.pk %}">Reply</a>
+          </div>
+          </div>
+          {% endif %}
+          {% if img.author == request.user %}
+          {% if img.replys.all.count > 0 %}
+          <div class="card-footer text-center text-muted">
+          {% for reply in img.replys.all %}
+          <p>
+            <span class="font-weight-bold">{{ reply.author }} &middot;</span>
+            {{ reply }}
+          </p>
+         {% endfor %}
+        </div>
+        {% endif %}
+        {% endif %}
+    </div>
+  </div>
+</div>
+
+{% endfor %}
+{% endblock contents %}

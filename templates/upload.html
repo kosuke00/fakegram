@@ -1,0 +1,12 @@
+{% extends "base.html" %}]
+{% load crispy_forms_tags %}
+{% block title %}upload{% endblock title %}
+
+{% block contents %}
+  <div class="mx-auto mt-5" style="width: 800px;">
+    <form method = "post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form|crispy }}
+      <button type="submit" class="btn" style="background-color: #FFD700;">Upload</button>
+    </form>
+{% endblock contents %}
